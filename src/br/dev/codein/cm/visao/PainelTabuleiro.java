@@ -2,7 +2,9 @@ package br.dev.codein.cm.visao;
 
 import java.awt.GridLayout;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import br.dev.codein.cm.modelo.Tabuleiro;
 
@@ -16,7 +18,16 @@ public class PainelTabuleiro extends JPanel {
 				);
 		tabuleiro.paraCadaCampo(c -> add(new BotaoCampo(c)));
 		tabuleiro.registrarObservador(e -> {
-			// TODO mostrar resultado pro usuário
+			
+			SwingUtilities.invokeLater(() -> {
+				if(e.isGanhou()) {
+					JOptionPane.showMessageDialog(null, "Parabéns! Você ganhou!");
+				} else {
+					JOptionPane.showMessageDialog(null, "Que pena! Você perdeu!");
+				}
+				tabuleiro.reiniciar();
+			});
+			
 		});
 	}
 }

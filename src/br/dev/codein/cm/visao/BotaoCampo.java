@@ -6,8 +6,7 @@ import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-
-
+import javax.swing.SwingUtilities;
 
 import br.dev.codein.cm.modelo.Campo;
 import br.dev.codein.cm.modelo.CampoEvento;
@@ -48,26 +47,39 @@ public class BotaoCampo extends JButton implements CampoObservador, MouseListene
 				aplicarEstiloPadrao();
 		}
 		
+		SwingUtilities.invokeLater(()-> {
+			repaint();
+			validate();
+		});
+		
 	}
 
 	private void aplicarEstiloPadrao() {
-		// TODO Auto-generated method stub
-		
+		setBackground(BG_PADRAO);
+		setBorder(BorderFactory.createBevelBorder(0));
+		setText("");
 	}
 
 	private void aplicarEstiloExplodir() {
-		// TODO Auto-generated method stub
-		
+		setBackground(BG_EXPLODIR);
+		setForeground(Color.WHITE);
+		setText("X");
 	}
 
 	private void aplicarEstiloMarcar() {
-		// TODO Auto-generated method stub
-		
+		setBackground(BG_MARCAR);
+		setText("!");
 	}
 
 	private void aplicarEstiloAbrir() {
-		setBackground(BG_PADRAO);
 		setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		
+		if(campo.isMinado()) {
+			setBackground(BG_EXPLODIR);
+			return;
+		}
+		
+		setBackground(BG_PADRAO);
 		
 		switch (campo.minasNaVizinhanca()) {
 		case 1: 
